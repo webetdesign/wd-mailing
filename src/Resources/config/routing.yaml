@@ -1,0 +1,3 @@
+index:
+  path: /MailJet/API/campaignoverview/
+  controller: 'WebEtDesignCmsBundle:MailJet/MailJet:getCampaign'

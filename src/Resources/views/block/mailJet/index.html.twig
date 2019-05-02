@@ -1,0 +1,92 @@
+<div class="row">
+    <div class="col-12 col-lg-4" id="select-campaign">
+        <div class="box box-primary">
+            <h3 class="box-header text-center">
+                <strong>Mes campagnes (Envoyées)</strong>
+            </h3>
+            <div class="box-body">
+                <div class="form-group">
+                    <select id="campaign-name-select" name="campaign-name" class="form-control">
+                        <option value="" selected>Choisir la campagne</option>
+                        {% for c in campaigns  %}
+                            <option value="{{ c.ID }}">{{ c.Subject }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-12 col-lg-4 campaign-hidden" style="display: none;">
+        <div class="box box-primary">
+            <div class="box-header">
+                <h4>Taux d'envoi</h4>
+            </div>
+            <div class="box-body p-4">
+                <div  id="campaign-taux-envoi" style="border:  solid 1px #dbd5dc; border-radius: 5px">
+                </div>
+            </div>
+         </div>
+    </div>
+
+    <div class="col-12 col-lg-6 campaign-hidden" style="display: none;">
+        <div class="box box-primary">
+            <div class="box-header">
+                <h4>Engagement des contacts</h4>
+            </div>
+            <div class="box-body p-4">
+                <div  id="campaign-stat" style="border:  solid 1px #dbd5dc; border-radius: 5px">
+                    <table class="table" style="margin-bottom: 0">
+                        <tr>
+                            <td class="p-5 text-center" style="border-right: solid 1px #dbd5dc">
+                                <p class="mb-0 ">
+                                    <strong style="font-size: 3rem; color: #676468"> 100%  </strong>
+                                </p>
+                                <p class="mt-2 mb-0">
+                                    <span style="font-size: 2rem; color: #a9a5aa">  1 </span>
+                                </p>
+                                <p class="mt-2 mb-0">
+                                    <span style="font-size: 1.5rem; color: #61a810"> ouverts</span>
+                                </p>
+                            </td>
+                            <td class="p-5 text-center" style="border-right: solid 1px #dbd5dc">
+                                <p class="mb-0 ">
+                                    <strong style="font-size: 3rem; color: #676468"> 100%  </strong>
+                                </p>
+                                <p class="mt-2 mb-0">
+                                    <span style="font-size: 2rem; color: #a9a5aa">  1 </span>
+                                </p>
+                                <p class="mt-2 mb-0">
+                                    <span style="font-size: 1.5rem; color: #61a810"> ouverts</span>
+                                </p>
+                            </td>
+                            <td class="p-5 text-center" style="border-right: solid 1px #dbd5dc">
+                                <p class="mb-0 ">
+                                    <strong style="font-size: 3rem; color: #676468"> 100%  </strong>
+                                </p>
+                                <p class="mt-2 mb-0">
+                                    <span style="font-size: 2rem; color: #a9a5aa">  1 </span>
+                                </p>
+                                <p class="mt-2 mb-0">
+                                    <span style="font-size: 1.5rem; color: #61a810"> ouverts</span>
+                                </p>
+                            </td>
+                            <td class="p-5 text-center">
+                                <p class="mb-0 ">
+                                    <strong style="font-size: 3rem; color: #676468"> 100%  </strong>
+                                </p>
+                                <p class="mt-2 mb-0">
+                                    <span style="font-size: 2rem; color: #a9a5aa">  1 </span>
+                                </p>
+                                <p class="mt-2 mb-0">
+                                    <span style="font-size: 1.5rem; color: #61a810"> ouverts</span>
+                                </p>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+</div>

@@ -1,0 +1,12 @@
+services:
+      mailing.admin.mailJet:
+      class: WebEtDesign\MailingBundle\Block\MailJet\Base
+      arguments:
+        - ~
+        - '@templating'
+
+      tags:
+        - { name: sonata.block }
+
+
+
