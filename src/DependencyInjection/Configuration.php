@@ -20,10 +20,12 @@ class Configuration implements ConfigurationInterface
         $rootNode = $treeBuilder->root('web_et_design_mailing');
 
         $rootNode
-                ->arrayNode('class')
-                    ->children()
-                        ->scalarNode('user')->cannotBeEmpty()->end()
-                        ->scalarNode('media')->cannotBeEmpty()->end()
+                ->children()
+                    ->arrayNode('class')
+                        ->children()
+                            ->scalarNode('user')->cannotBeEmpty()->end()
+                            ->scalarNode('media')->cannotBeEmpty()->end()
+                        ->end()
                     ->end()
                 ->end()
             ->end();

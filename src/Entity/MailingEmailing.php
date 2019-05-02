@@ -8,13 +8,28 @@
 
 namespace WebEtDesign\MailingBundle\Entity;
 
+use Doctrine\ORM\Mapping as ORM;
 
+
+/**
+ * @ORM\Entity(repositoryClass="WebEtDesign\MailingBundle\Repository\MailingEmailingRepository")
+ */
 class MailingEmailing
 {
     /**
+     * @ORM\Id
+     * @ORM\GeneratedValue
+     * @ORM\Column(type="integer")
+     *
      * @var integer
      */
     private $id;
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=false)
+     * @var string
+     */
+    private $email;
 
     /**
      * @return int

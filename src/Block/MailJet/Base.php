@@ -6,7 +6,7 @@
  * Time: 16:38
  */
 
-namespace WebEtDesign\CmsBundle\Block\MailJet;
+namespace WebEtDesign\MailingBundle\Block\MailJet;
 
 use Sonata\BlockBundle\Block\AbstractBlockService;
 
@@ -73,7 +73,7 @@ class Base extends AbstractBlockService
     public function configureSettings(OptionsResolver $resolver)
     {
         $resolver->setDefaults([
-            'template' => "@WebEtDesignCmsBundle/Resources/views/block/mailJet/index.html.twig",
+            'template' => "@WebEtDesignMailingBundle/Resources/views/block/mailJet/index.html.twig",
 
         ]);
 
