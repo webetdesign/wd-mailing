@@ -1,3 +1,7 @@
 index:
   path: /MailJet/API/campaignoverview/
-  controller: 'WebEtDesignCmsBundle:MailJet/MailJet:getCampaign'
+  controller: 'WebEtDesignMailingBundle:MailJet\MailJet:getCampaign'
+
+unsub:
+  path: /mailing/unsub
+  controller: 'WebEtDesignMailingBundle:MailJet\MailJet:unsub'

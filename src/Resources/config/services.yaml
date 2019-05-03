@@ -1,14 +1,30 @@
 services:
+    WebEtDesign\MailingBundle\Controller\MailJet\MailJetController:
+      autowire: true # or define your controller constructor and configure its arguments explicitly
+      tags: ['controller.service_arguments']
+
     mailing.admin.mailJet:
         class: WebEtDesign\MailingBundle\Block\MailJet\Base
         arguments:
           - ~
           - '@templating'
+          - '@doctrine.orm.entity_manager'
 
         tags:
           - { name: sonata.block }
 
 
-    WebEtDesign\MailingBundle\EventListener\UpdateEmailing:
+    mailing.Emailing.listner:
+      class: WebEtDesign\MailingBundle\EventListener\UpdateEmailing
+      public: true
       tags:
         - { name: doctrine.event_subscriber, connection: default }
+
+  # ===============================================
+  # REPOSITORY
+  # ===============================================
+
+    WebEtDesign\MailingBundle\Repository\:
+      resource: '../../Repository'
+      autowire: true
+      tags: ['doctrine.repository_service']

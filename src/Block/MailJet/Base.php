@@ -8,6 +8,7 @@
 
 namespace WebEtDesign\MailingBundle\Block\MailJet;
 
+use Doctrine\ORM\EntityManagerInterface;
 use Sonata\BlockBundle\Block\AbstractBlockService;
 
 use Sonata\BlockBundle\Block\BlockContextInterface;
@@ -17,22 +18,26 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 use Mailjet\Client;
 use Mailjet\Resources;
 use Symfony\Component\Dotenv\Dotenv;
+use WebEtDesign\MailingBundle\Entity\MailingEmailing;
 
 class Base extends AbstractBlockService
 {
     private $public_key;
     private $private_key;
     private $params;
+    private $em;
 
     /**
      * @param string $name
      * @param EngineInterface $templating
      */
-    public function __construct($name, EngineInterface $templating)
+    public function __construct($name, EngineInterface $templating, EntityManagerInterface $em)
     {
         parent::__construct($name, $templating);
         $this->public_key = null;
         $this->private_key = null;
+        $this->em = $em;
+
 
     }
 
@@ -50,6 +55,19 @@ class Base extends AbstractBlockService
         $this->updateSettings();
 
         $mj = new Client($this->public_key, $this->private_key);
+
+        /*
+                 $email = new MailingEmailing();
+        $email->setEmail("benjamin.robert90@gmail.com");
+        $this->em->persist($email);
+        $this->em->flush();
+
+        die;
+
+        $email = $this->em->getRepository(MailingEmailing::class)->findOneBy(["idEmailing" => 2382883718]);
+        $this->em->remove($email);
+        $this->em->flush();
+         */
 
         $campaigns = $mj->get(Resources::$Campaign, [
             "filters" => [
