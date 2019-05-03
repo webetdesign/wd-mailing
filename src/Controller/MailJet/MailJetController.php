@@ -65,10 +65,10 @@ class MailJetController extends Controller
      */
     public function unsubAction(Request $request, LoggerInterface $logger, EntityManagerInterface $em)
     {
-        $datas = $request->getContent();
+        $datas = json_decode($request->getContent());
 
 
-        $logger->error($datas["email"]);
+        $logger->error($datas->email);
 
         /*
          * $logger->error(["email" => $datas->email, "event" => $datas->event]);
