@@ -10,6 +10,7 @@ namespace WebEtDesign\MailingBundle\EventListener;
 
 use Doctrine\Common\Persistence\Event\LifecycleEventArgs;
 use Doctrine\ORM\Mapping\ClassMetadata;
+use Psr\Log\LoggerInterface;
 use WebEtDesign\MailingBundle\Entity\MailingEmailing;
 
 use Doctrine\Common\EventSubscriber;
@@ -58,10 +59,10 @@ class UpdateEmailing implements EventSubscriber
         ]);
 
 
-        $entity->setIdEmailing($res->getData()[0]["ContactID"]);
+        $entity->setIdMailjet($res->getData()[0]["ContactID"]);
 
         $res_contact = $mj->put(Resources::$Contact, [
-            "ID" => $entity->getIdEmailing(),
+            "ID" => $entity->getIdMailjet(),
             "body" => [
                 "IsExcludedFromCampaigns" => 0
             ]
@@ -84,16 +85,19 @@ class UpdateEmailing implements EventSubscriber
 
 
         $res_contactdata = $mj->delete(Resources::$Contactdata, [
-            "ID" => $entity->getIdEmailing()
+            "ID" => $entity->getIdMailjet()
         ]);
 
-        $res_contact = $mj->put(Resources::$Contact, [
-            "ID" => $entity->getIdEmailing(),
+        dump($res_contactdata);
+
+        $res_contact = $mj->post(Resources::$ContactslistManagecontact, [
             "body" => [
-                "IsExcludedFromCampaigns" => 1
-            ]
+                "Email" => $entity->getEmail(),
+                "Action" => "unsub"
+            ],
+            "ID" => $listID,
         ]);
-
+        dump($res_contact);
     }
 
     /**

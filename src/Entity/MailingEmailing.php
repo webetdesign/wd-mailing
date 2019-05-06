@@ -33,7 +33,7 @@ class MailingEmailing
      * @ORM\Column(type="integer", nullable=true)
      * @var integer
      */
-    private $idEmailing;
+    private $idMailjet;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
@@ -48,6 +48,12 @@ class MailingEmailing
      */
     private $email;
 
+    /*
+     * @ORM\OneToOne(targetEntity="App\Application\Sonata\UserBundle\Entity\User", inversedBy="mailingEmailing", cascade={"persist", "remove"})
+     * @ORM\JoinColumn(name="user_id", referencedColumnName="id")
+     */
+    private $user;
+
     /**
      * @return int
      */
@@ -56,28 +62,21 @@ class MailingEmailing
         return $this->id;
     }
 
-    /**
-     * @param int $id
-     */
-    public function setId(int $id)
-    {
-        $this->id = $id;
-    }
 
     /**
      * @return int
      */
-    public function getIdEmailing(): int
+    public function getIdMailjet(): int
     {
-        return $this->idEmailing;
+        return $this->idMailjet;
     }
 
     /**
-     * @param int $idEmailing
+     * @param int $idMailjet
      */
-    public function setIdEmailing(int $idEmailing)
+    public function setIdMailjet(int $idMailjet)
     {
-        $this->idEmailing = $idEmailing;
+        $this->idMailjet = $idMailjet;
     }
 
 
@@ -113,6 +112,24 @@ class MailingEmailing
     {
         $this->email = $email;
     }
+
+    /**
+     * @return mixed
+     */
+    public function getUser()
+    {
+        return $this->user;
+    }
+
+    /**
+     * @param mixed $user
+     */
+    public function setUser($user)
+    {
+        $this->user = $user;
+    }
+
+
 
 
 

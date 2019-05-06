@@ -2,6 +2,7 @@
 
 namespace WebEtDesign\MailingBundle\Controller\MailJet;
 
+use App\Application\Sonata\UserBundle\Entity\User;
 use Doctrine\ORM\EntityManagerInterface;
 use Psr\Log\LoggerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -69,20 +70,18 @@ class MailJetController extends Controller
 
 
         $logger->error($datas->email);
+        $logger->error($datas->event);
 
-        /*
-         * $logger->error(["email" => $datas->email, "event" => $datas->event]);
+        $email = $datas->email;
 
-        if ($email && $datas->event == "event"){
-            $emailing = $em->getRepository(MailingEmailing::class)->findOneBy([
+        if ($email && $datas->event == "unsub"){
+            $user = $em->getRepository(User::class)->findOneBy([
                 "email" => $email
             ]);
 
-            $em->remove($emailing);
+            $user->setEmailing(0);
             $em->flush();
         }
-         */
-
 
         return new Response("ok");
     }

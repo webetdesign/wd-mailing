@@ -20,6 +20,12 @@ services:
       tags:
         - { name: doctrine.event_subscriber, connection: default }
 
+    mailing.User.listner:
+      class: WebEtDesign\MailingBundle\EventListener\UpdateUser
+      public: true
+      tags:
+        - { name: doctrine.event_subscriber, connection: default }
+
   # ===============================================
   # REPOSITORY
   # ===============================================

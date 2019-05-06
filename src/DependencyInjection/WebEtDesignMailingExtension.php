@@ -20,6 +20,7 @@ use WebEtDesign\CmsBundle\Entity\AbstractCmsRoute;
 use WebEtDesign\CmsBundle\Entity\CmsContent;
 use WebEtDesign\CmsBundle\Entity\CmsContentSlider;
 use WebEtDesign\CmsBundle\Entity\CmsRoute;
+use WebEtDesign\MailingBundle\Entity\MailingEmailing;
 
 class WebEtDesignMailingExtension extends Extension
 {
@@ -30,6 +31,8 @@ class WebEtDesignMailingExtension extends Extension
         $config        = $processor->processConfiguration($configuration, $configs);
 
         $this->configureClass($config, $container);
+
+        $this->registerDoctrineMapping($config);
 
         $loader = new YamlFileLoader($container, new FileLocator(__DIR__ . '/../Resources/config'));
         $loader->load('services.yaml');
@@ -46,6 +49,29 @@ class WebEtDesignMailingExtension extends Extension
         // manager configuration
         $container->setParameter('wd_mailing.admin.content.user', $config['class']['user']);
         $container->setParameter('wd_mailing.admin.content.media', $config['class']['media']);
+    }
+
+    private function registerDoctrineMapping($config)
+    {
+        $collector = DoctrineCollector::getInstance();
+
+        $collector->addAssociation(MailingEmailing::class, 'mapOneToOne', [
+            'fieldName'     => 'user',
+            'targetEntity'  => $config['class']['user'],
+            'cascade'       => [
+            ],
+            'mappedBy'      => null,
+            'inversedBy'    => "mailingEmailing",
+            'joinColumns'   => [
+                [
+                    'name'                 => 'user_id',
+                    'referencedColumnName' => 'id',
+                ],
+            ],
+            'orphanRemoval' => false,
+        ]);
+
+
     }
 
 
