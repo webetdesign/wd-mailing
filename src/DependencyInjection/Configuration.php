@@ -28,6 +28,14 @@ class Configuration implements ConfigurationInterface
                         ->end()
                     ->end()
                 ->end()
+                ->children()
+                    ->arrayNode('MailJet')
+                        ->children()
+                            ->scalarNode('PUBLIC_API_KEY')->end()
+                            ->scalarNode('SECRET_API_KEY')->end()
+                        ->end()
+                    ->end()
+                ->end()
             ->end();
 
         return $treeBuilder;

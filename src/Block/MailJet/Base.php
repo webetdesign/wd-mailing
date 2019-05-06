@@ -31,11 +31,11 @@ class Base extends AbstractBlockService
      * @param string $name
      * @param EngineInterface $templating
      */
-    public function __construct($name, EngineInterface $templating, EntityManagerInterface $em)
+    public function __construct($name, EngineInterface $templating, EntityManagerInterface $em, string $public_key, string $private_key)
     {
         parent::__construct($name, $templating);
-        $this->public_key = null;
-        $this->private_key = null;
+        $this->public_key = $public_key;
+        $this->private_key = $private_key;
         $this->em = $em;
 
 
@@ -50,24 +50,9 @@ class Base extends AbstractBlockService
     {
         $settings = $blockContext->getSettings();
 
-
         $template = $settings['template'];
-        $this->updateSettings();
 
         $mj = new Client($this->public_key, $this->private_key);
-
-        /*
-                 $email = new MailingEmailing();
-        $email->setEmail("benjamin.robert90@gmail.com");
-        $this->em->persist($email);
-        $this->em->flush();
-
-        die;
-
-        $email = $this->em->getRepository(MailingEmailing::class)->findOneBy(["idEmailing" => 2382883718]);
-        $this->em->remove($email);
-        $this->em->flush();
-         */
 
         $campaigns = $mj->get(Resources::$Campaign, [
             "filters" => [
@@ -99,12 +84,4 @@ class Base extends AbstractBlockService
 
     }
 
-    public function updateSettings(){
-
-        $dotenv = new Dotenv();
-        $dotenv->load(realpath("./../").'/.env');
-
-        $this->public_key = $_ENV['MAILJET_PUBLIC_API_KEY'];
-        $this->private_key = $_ENV['MAILJET_PRIVATE_API_KEY'];
-    }
 }

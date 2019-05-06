@@ -9,6 +9,8 @@ services:
           - ~
           - '@templating'
           - '@doctrine.orm.entity_manager'
+          - '%wd_mailing.mailjet.public_key%'
+          - '%wd_mailing.mailjet.secret_key%'
 
         tags:
           - { name: sonata.block }

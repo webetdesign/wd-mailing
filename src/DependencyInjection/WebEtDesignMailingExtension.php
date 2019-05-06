@@ -31,6 +31,7 @@ class WebEtDesignMailingExtension extends Extension
         $config        = $processor->processConfiguration($configuration, $configs);
 
         $this->configureClass($config, $container);
+        $this->configureMailjet($config, $container);
 
         $this->registerDoctrineMapping($config);
 
@@ -38,6 +39,12 @@ class WebEtDesignMailingExtension extends Extension
         $loader->load('services.yaml');
 
 
+    }
+
+    public function configureMailjet($config, ContainerBuilder $container)
+    {
+        $container->setParameter('wd_mailing.mailjet.public_key', $config['MailJet']['PUBLIC_API_KEY']);
+        $container->setParameter('wd_mailing.mailjet.secret_key', $config['MailJet']['SECRET_API_KEY']);
     }
 
     /**

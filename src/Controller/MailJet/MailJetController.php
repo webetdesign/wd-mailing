@@ -22,11 +22,8 @@ class MailJetController extends Controller
         $datas = [];
 
         try{
-            $dotenv = new Dotenv();
-            $dotenv->load(realpath("./../").'/.env');
-
-            $public_key = $_ENV['MAILJET_PUBLIC_API_KEY'];
-            $private_key = $_ENV['MAILJET_PRIVATE_API_KEY'];
+            $public_key = $this->getParameter('wd_mailing.mailjet.public_key');
+            $private_key = $this->getParameter('wd_mailing.mailjet.secret_key');
 
             $mj = new Client($public_key, $private_key);
 
