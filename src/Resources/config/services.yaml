@@ -14,6 +14,10 @@ services:
           - { name: sonata.block }
 
 
+  # ===============================================
+  # LISTENER
+  # ===============================================
+
     mailing.Emailing.listner:
       class: WebEtDesign\MailingBundle\EventListener\UpdateEmailing
       public: true
@@ -34,3 +38,15 @@ services:
       resource: '../../Repository'
       autowire: true
       tags: ['doctrine.repository_service']
+
+  # ===============================================
+  # ADMIN
+  # ===============================================
+
+
+    mailing.emailing.admin:
+      class: WebEtDesign\MailingBundle\Admin\MailingEmailingAdmin
+      arguments: [~, WebEtDesign\MailingBundle\Entity\MailingEmailing, WebEtDesign\MailingBundle\Controller\MailJet\MailingEmailingAdminController]
+      tags:
+        - { name: sonata.admin, manager_type: orm, group: Mailing, label: MailJet, icon: <i class="fa fa-envelope"></i> }
+      public: true
