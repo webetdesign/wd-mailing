@@ -8,6 +8,7 @@
 
 namespace WebEtDesign\MailingBundle\EventListener;
 
+use App\Application\Sonata\UserBundle\Entity\User;
 use Doctrine\Common\Persistence\Event\LifecycleEventArgs;
 use Doctrine\ORM\Mapping\ClassMetadata;
 use Psr\Log\LoggerInterface;
@@ -21,8 +22,26 @@ use Symfony\Component\Dotenv\Dotenv;
 
 use Doctrine\ORM\Events;
 
+use Symfony\Component\DependencyInjection\ContainerBuilder;
+
+/**
+ * Class UpdateEmailing
+ * @package WebEtDesign\MailingBundle\EventListener
+ */
 class UpdateEmailing implements EventSubscriber
 {
+    private $public_key;
+    private $secret_key;
+
+    /**
+     * UpdateEmailing constructor.
+     */
+    public function __construct(string $public_key, string $secret_key)
+    {
+        $this->public_key = $public_key;
+        $this->secret_key = $secret_key;
+    }
+
     /**
      * @return array|string[]
      */
@@ -79,6 +98,8 @@ class UpdateEmailing implements EventSubscriber
             return;
         }
 
+        $em = $args->getObjectManager();
+
         $listID = $this->getListId();
 
         $mj = $this->getClient();
@@ -88,8 +109,6 @@ class UpdateEmailing implements EventSubscriber
             "ID" => $entity->getIdMailjet()
         ]);
 
-        dump($res_contactdata);
-
         $res_contact = $mj->post(Resources::$ContactslistManagecontact, [
             "body" => [
                 "Email" => $entity->getEmail(),
@@ -97,25 +116,22 @@ class UpdateEmailing implements EventSubscriber
             ],
             "ID" => $listID,
         ]);
-        dump($res_contact);
+
+        $user = $entity->getUser();
+
+        $user->setEmailing(0);
+        $user->setMailingEmailing(null);
+        $em->flush();
     }
 
     /**
      * @return Client|void
      */
     public function getClient(){
-        try{
-            $dotenv = new Dotenv();
-            $dotenv->load(realpath("./../").'/.env');
+        $public_key = $this->public_key;
+        $secret_key = $this->secret_key;
 
-            $public_key = $_ENV['MAILJET_PUBLIC_API_KEY'];
-            $private_key = $_ENV['MAILJET_PRIVATE_API_KEY'];
-        }catch (\Exception $e){
-            dump($e);
-            return;
-        }
-
-        return new Client($public_key, $private_key);
+        return new Client($public_key, $secret_key);
     }
 
     /**

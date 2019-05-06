@@ -25,6 +25,9 @@ services:
       public: true
       tags:
         - { name: doctrine.event_subscriber, connection: default }
+      arguments:
+        - '%wd_mailing.mailjet.public_key%'
+        - '%wd_mailing.mailjet.secret_key%'
 
     mailing.User.listner:
       class: WebEtDesign\MailingBundle\EventListener\UpdateUser
