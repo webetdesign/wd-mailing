@@ -1,0 +1,34 @@
+{{ form_start(sub) }}
+    <div class="row ">
+        <div class="col-12">
+            <div class="input-group">
+                {{ form_widget(sub.email, {'id' : 'email_mailing_sub'}) }}
+                {{ form_errors(sub.email) }}
+                {{ form_widget(sub.submit, {'id' : 'submit_mailing_sub'}) }}
+            </div>
+        </div>
+    </div>
+{{ form_end(sub) }}
+
+{% block javascripts %}
+    <script>
+        $("#submit_mailing_sub").on('click',function() {
+            $("#error_sub_form").remove();
+            $("#success_sub_form").remove();
+            $.post( "{{ path('mailing.sub_valid_form') }}", {email: $("#email_mailing_sub").val()})
+            .done(function(data) {
+                if (data["errors"]){
+                    $("#email_mailing_sub").addClass("is-invalid");
+                    $("#email_mailing_sub").after('<div class="invalid-feedback" id="error_sub_form">\n' +
+                        data["errors"]  +
+                        '    </div>')
+                }else if (data["success"]){
+                    $("#email_mailing_sub").addClass("is-valid");
+                    $("#email_mailing_sub").after('<div class="valid-feedback" id="error_sub_form">\n' +
+                        data["success"]  +
+                        '    </div>')
+                }
+            });
+        })
+    </script>
+{% endblock %}

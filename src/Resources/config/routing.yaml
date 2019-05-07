@@ -1,7 +1,14 @@
-index:
+mailing.getCampaign:
   path: /MailJet/API/campaignoverview/
   controller: 'WebEtDesignMailingBundle:MailJet\MailJet:getCampaign'
 
-unsub:
+mailing.unsub:
   path: /mailing/unsub
   controller: 'WebEtDesignMailingBundle:MailJet\MailJet:unsub'
+
+mailing.sub_render_form:
+  path: /mailing/sub/form/render
+  controller: 'WebEtDesignMailingBundle:MailJet\MailJetSub:sub'
+mailing.sub_valid_form:
+  path: /mailing/sub/form/valid
+  controller: 'WebEtDesignMailingBundle:MailJet\MailJetSub:valid'

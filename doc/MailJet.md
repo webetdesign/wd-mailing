@@ -2,6 +2,43 @@ MailJet
 ======
 
 To use this bundle you must have a MailJet Account [Login](https://app.mailjet.com/signin)
+This bundle is in link with the sonata user-bundle. You have to add the following field to tuhe user entity : 
+    
+       file : cms-skeleton/src/Application/Sonata/UserBundle/Entity/User.php
+       
+        /**
+         * @var boolean|null
+         */
+        protected $emailing;
+    
+        /**
+         * @var \DateTime
+         */
+        protected $emailingUpdatedAt;
+    
+        /*
+         * @ORM\OneToOne(targetEntity="WebEtDesign\MailingBundle\Entity\MailingEmailing", mappedBy="user", cascade={"persist", "remove"}, fetch="EAGER")
+         */
+        private $mailingEmailing; 
+
+After add this configuration for the relation : 
+    
+    file :  cms-skeleton/src/Application/Sonata/UserBundle/Resources/config/doctrine/User.orm.xml
+    
+    <one-to-one field="mailingEmailing" target-entity="WebEtDesign\MailingBundle\Entity\MailingEmailing" mapped-by="user" />
+    
+    <id name="id" column="id" type="integer">
+        <generator strategy="AUTO" />
+    </id>
+
+    <field name="emailing" column="emailing" type="boolean" nullable="true" >
+        <options>
+            <option name="default">0</option>
+        </options>
+    </field>
+
+    <field name="emailingUpdatedAt" column="emailingUpdatedAt" type="datetime" nullable="true" />
+        
 
 ## Configuration
 
@@ -49,4 +86,15 @@ Don't forget to add the css and js files :
                 - bundles/webetdesigncms/cms_admin.css
                 - bundles/webetdesignmailing/mailing_admin.css
 
+
+## Subscription
+
+You have access to a subscription form.
+    
+    {{ render(controller('WebEtDesignMailingBundle:MailJet/MailJetSub:sub')) }}
+
+This form need :
+
+   - Jquery (last version)
+   - Bootstrap 4
 
