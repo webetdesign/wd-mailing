@@ -56,7 +56,10 @@ class Base extends AbstractBlockService
 
         $campaigns = $mj->get(Resources::$Campaign, [
             "filters" => [
-                "isDeleted" => 0
+                "isDeleted" => 0,
+                "periode" => "Year",
+                "limit" => 200,
+                "fromType" => 2
             ]
         ]);
 

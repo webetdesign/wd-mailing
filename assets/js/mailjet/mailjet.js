@@ -28,7 +28,6 @@ function showCampaign(datas) {
     $("#campaign-info").html('' +
         '<span style="color: #4d4b4e">Envoyé le : </span>' +
         '<span style="color: #918d92">' + date + '</span>' +
-        '<span style="color: #918d92"> à ' + total + ' contact(s)</span>' +
         '<br>' +
         '<span style="color: #4d4b4e; margin-top: 15px">Objet : </span>' +
         '<span style="color: #918d92">' + info["Subject"] + '</span>' +
@@ -76,7 +75,7 @@ function showCampaign(datas) {
         '   <tr>\n' +
         '       <td class="p-5 text-center" style="border-right: solid 1px #dbd5dc">\n' +
         '           <p class="mb-0 ">\n' +
-        '               <strong style="font-size: 3rem; color: #676468">'+ getStat(stat["MessageSentCount"], stat["MessageOpenedCount"]) +'%</strong>\n' +
+        '               <strong style="font-size: 3rem; color: #676468">'+ getStat(stat["MessageOpenedCount"], stat["MessageSentCount"]) +'%</strong>\n' +
         '           </p>\n' +
         '           <p class="mt-2 mb-0">\n' +
         '               <span style="font-size: 2rem; color: #a9a5aa">' + stat["MessageOpenedCount"] + ' </span>\n' +
@@ -125,7 +124,6 @@ function showCampaign(datas) {
 
     $(".campaign-hidden").show();
     $("#select-campaign").removeClass("col-lg-4");
-    $("#select-campaign").addClass("col-lg-2");
 }
 
 function formatDateCampaign(data){
