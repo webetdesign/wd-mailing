@@ -19,8 +19,9 @@ use Mailjet\Client;
 use Mailjet\Resources;
 use Symfony\Component\Dotenv\Dotenv;
 use WebEtDesign\MailingBundle\Entity\MailingEmailing;
+use WebEtDesign\MailingBundle\Entity\MailingListContact;
 
-class Base extends AbstractBlockService
+class Config extends AbstractBlockService
 {
     private $public_key;
     private $private_key;
@@ -55,23 +56,24 @@ class Base extends AbstractBlockService
 
         $mj = new Client($this->public_key, $this->private_key);
 
-        $campaigns = $mj->get(Resources::$Campaign, [
-            "filters" => [
-                "isDeleted" => 0,
-                "periode" => "Year",
-                "limit" => 200,
-                "fromType" => 2
-            ]
-        ]);
+        $res = $this->em->getRepository(MailingListContact::class)->findAll();
+        if ($res){
+            $listUse = $res[0];
+        }else{
+            $listUse = null;
+        }
+
+        $lists = $mj->get(Resources::$Contactslist, []);
 
         return $this->renderPrivateResponse($template, [
-            'campaigns' =>  $campaigns->getData(),
+            'lists' =>  $lists->getData(),
+            "listUse" => $listUse
         ], $response);
     }
 
     public function getName()
     {
-        return 'Admin MailJet';
+        return 'Admin MailJet Config';
     }
 
     /**
@@ -80,7 +82,7 @@ class Base extends AbstractBlockService
     public function configureSettings(OptionsResolver $resolver)
     {
         $resolver->setDefaults([
-            'template' => "@WebEtDesignMailingBundle/Resources/views/block/mailJet/index.html.twig",
+            'template' => "@WebEtDesignMailingBundle/Resources/views/block/mailJet/config.html.twig",
 
         ]);
 

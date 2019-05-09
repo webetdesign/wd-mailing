@@ -3,7 +3,7 @@ services:
       autowire: true # or define your controller constructor and configure its arguments explicitly
       tags: ['controller.service_arguments']
 
-    mailing.admin.mailJet:
+    mailing.stats.mailJet:
         class: WebEtDesign\MailingBundle\Block\MailJet\Base
         arguments:
           - ~
@@ -14,6 +14,18 @@ services:
 
         tags:
           - { name: sonata.block }
+
+    mailing.config.mailJet:
+      class: WebEtDesign\MailingBundle\Block\MailJet\Config
+      arguments:
+        - ~
+        - '@templating'
+        - '@doctrine.orm.entity_manager'
+        - '%wd_mailing.mailjet.public_key%'
+        - '%wd_mailing.mailjet.secret_key%'
+
+      tags:
+        - { name: sonata.block }
 
 
   # ===============================================

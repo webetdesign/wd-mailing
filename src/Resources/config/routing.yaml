@@ -2,6 +2,10 @@ mailing.getCampaign:
   path: /MailJet/API/campaignoverview/
   controller: 'WebEtDesignMailingBundle:MailJet\MailJet:getCampaign'
 
+mailing.changeList:
+  path: /MailJet/API/list-select/
+  controller: 'WebEtDesignMailingBundle:MailJet\MailJet:updateList'
+
 mailing.unsub:
   path: /mailing/unsub
   controller: 'WebEtDesignMailingBundle:MailJet\MailJet:unsub'

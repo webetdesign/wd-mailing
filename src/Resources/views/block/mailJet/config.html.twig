@@ -1,0 +1,20 @@
+<div class="row">
+    <div class="col-12 col-lg-4" id="select-list">
+        <div class="box box-primary">
+            <h3 class="box-header text-center">
+                <strong>Vos listes de contact</strong>
+            </h3>
+            <div class="box-body">
+                <div class="form-group">
+                    <select id="list-select" name="list-name" class="form-control">
+                        <option value="" selected>Choisir la liste à utiliser</option>
+                        {% for l in lists %}
+                            <option value="{{ l.ID }}" {% if listUse and  l.ID == listUse.idList %} selected {% endif %}>{{ l.Name }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+

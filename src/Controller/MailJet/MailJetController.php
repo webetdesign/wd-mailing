@@ -6,17 +6,52 @@ use App\Application\Sonata\UserBundle\Entity\User;
 use Doctrine\ORM\EntityManagerInterface;
 use Psr\Log\LoggerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
 use Mailjet\Client;
 use Mailjet\Resources;
 use Symfony\Component\Dotenv\Dotenv;
-use WebEtDesign\MailingBundle\Entity\MailingEmailing;
+use WebEtDesign\MailingBundle\Entity\MailingListContact;
 
 class MailJetController extends Controller
 {
+    public function updateListAction(Request $request){
 
+        $id = $request->request->get('id');
+
+        $em = $this->container->get('doctrine.orm.entity_manager');
+
+        $public_key = $this->getParameter('wd_mailing.mailjet.public_key');
+        $private_key = $this->getParameter('wd_mailing.mailjet.secret_key');
+
+        $mj = new Client($public_key, $private_key);
+
+        $res = $mj->get(Resources::$Contactslist, [
+            "ID" => $id
+        ])->getData();
+
+        try{
+            if ($res["ErrorMessage"]){
+                return new JsonResponse($res);
+            }
+        }catch (\Exception $e){
+
+        }
+
+        $list = $em->getRepository(MailingListContact::class)->findAll()[0];
+
+        $list->setIdList($res[0]["ID"]);
+        $list->setName($res[0]["Name"]);
+
+        $em->flush();
+
+        return new JsonResponse(json_encode([
+            "success" => "La liste a été modifiée"
+        ]));
+
+    }
     public function getCampaignAction(Request $request)
     {
         $datas = [];

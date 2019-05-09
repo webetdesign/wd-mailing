@@ -1,6 +1,8 @@
 $( document ).ready(function() {
     $("#s2id_campaign-name-select").remove();
+    $("#s2id_list-select").remove();
     $("#campaign-name-select").show();
+    $("#list-select").show();
 
     $("#campaign-name-select").change( function() {
         $("#loadModal").modal('show');
@@ -10,6 +12,17 @@ $( document ).ready(function() {
             data = jQuery.parseJSON(data)
             console.log(data);
             showCampaign(data);
+            $("#loadModal").modal('hide');
+        })
+    })
+
+    $("#list-select").change( function() {
+        $("#loadModal").modal('show');
+        $.post("/MailJet/API/list-select/", {
+            "id": $("#list-select").val(),
+        }).done(function (data) {
+            data = jQuery.parseJSON(data)
+            console.log(data);
             $("#loadModal").modal('hide');
         })
     })
@@ -48,7 +61,7 @@ function showCampaign(datas) {
         '                        <tr style="border-top: solid 1px #dbd5dc">\n' +
         '                            <td style=" width: 35%; border-top: none;" class="pt-4 text-center">\n' +
         '                                <p class="mb-0 ">\n' +
-        '                                    <strong style="font-size: 2rem; color: #676468">'+ Math.round((stat["MessageSentCount"] / total) * 100) +'% </strong>\n' +
+        '                                    <strong style="font-size: 2rem; color: #676468">'+ ((stat["MessageSentCount"] / total) * 100).toFixed(2) +'% </strong>\n' +
         '                                </p>\n' +
         '                                <p class="mt-2">\n' +
         '                                    <span style="font-size: 1.5rem; color: #a9a5aa">'+  stat["MessageSentCount"] +' Délivrés</span>\n' +
@@ -57,11 +70,11 @@ function showCampaign(datas) {
         '                            </td>\n' +
         '                            <td class="pt-3" style=" padding-left: 30px ;width: 65%; border-left: solid 1px #dbd5dc; border-top: none">\n' +
         '                                <p class="mb-0 ">\n' +
-        '                                    <strong style="font-size: 1.5rem; color: #676468">'+ Math.round((stat["MessageBlockedCount"] / total) * 100) +'% </strong>\n' +
+        '                                    <strong style="font-size: 1.5rem; color: #676468">'+ ((stat["MessageBlockedCount"] / total) * 100).toFixed(2) +'% </strong>\n' +
         '                                    <span style="font-size: 1.3rem; color: #a9a5aa"> Bloqués</span>\n' +
         '                                </p>\n' +
         '                                <p class="mb-0 mt-2">\n' +
-        '                                    <strong style="font-size: 1.5rem; color: #676468">'+ Math.round((stat["MessageSoftBouncedCount"] / total) * 100) +'% </strong>\n' +
+        '                                    <strong style="font-size: 1.5rem; color: #676468">'+ ((stat["MessageSoftBouncedCount"] / total) * 100).toFixed(2) +'% </strong>\n' +
         '                                    <span style="font-size: 1.3rem; color: #ff624d"> Erreur</span> \n' +
         '                                </p>\n' +
         '                            </td>\n' +
@@ -141,6 +154,6 @@ function getStat($v1 , $v2){
     if ($v2 == 0){
         return 0;
     }else{
-        return Math.round(($v1 / $v2) * 100);
+        return (($v1 / $v2) * 100).toFixed(2);
     }
 }

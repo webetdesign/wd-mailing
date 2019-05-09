@@ -10,9 +10,11 @@ namespace WebEtDesign\MailingBundle\EventListener;
 
 use App\Application\Sonata\UserBundle\Entity\User;
 use Doctrine\Common\Persistence\Event\LifecycleEventArgs;
+use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\Mapping\ClassMetadata;
 use Psr\Log\LoggerInterface;
 use WebEtDesign\MailingBundle\Entity\MailingEmailing;
+use WebEtDesign\MailingBundle\Entity\MailingListContact;
 
 use Doctrine\Common\EventSubscriber;
 
@@ -63,8 +65,10 @@ class UpdateEmailing implements EventSubscriber
         if (!$entity instanceof MailingEmailing){
             return;
         }
+        $em = $args->getObjectManager();
 
-        $listID = $this->getListId();
+        $list = $this->getList($em);
+        $listID = $list->getIdList();
 
         $mj = $this->getClient();
 
@@ -100,7 +104,8 @@ class UpdateEmailing implements EventSubscriber
 
         $em = $args->getObjectManager();
 
-        $listID = $this->getListId();
+        $list = $this->getList($em);
+        $listID = $list->getIdList();
 
         $mj = $this->getClient();
 
@@ -137,8 +142,8 @@ class UpdateEmailing implements EventSubscriber
     /**
      * @return int
      */
-    public function getListId(){
-        return 2072394;
+    public function getList(EntityManagerInterface $em){
+        return $em->getRepository(MailingListContact::class)->findAll()[0];
     }
 
 
